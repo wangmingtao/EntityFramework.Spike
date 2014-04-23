@@ -2,34 +2,39 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using EntityFramework.Spike.Entities;
 
 namespace EntityFramework.Spike
 {
     public class Repository<T> where T : class, IEntity, new()
     {
-        private DbContext _context;
-        private IDbSet<T> _dbSet; 
+        private readonly DbContext _context;
+        private readonly IDbSet<T> _dbSet; 
 
-        public Repository()
+        public Repository(DbContext context)
         {
-            _context = new DataBaseContext();
+            _context = context;
             _dbSet = _context.Set<T>();
         }
 
-        public IList<T> Query()
+        public IList<T> Query(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
             var query = _dbSet as IQueryable<T>;
-            if (query != null)
-            {
-                query = query.AsNoTracking();
 
-                return query.ToList();
+            query = query.AsNoTracking();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
             }
 
-            return new List<T>();
+            if (orderBy != null)
+            {
+                return orderBy(query).ToList();
+            }
+
+            return query.ToList();
         }
 
         public T GetById(object key)

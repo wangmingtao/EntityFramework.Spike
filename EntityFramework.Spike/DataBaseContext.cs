@@ -8,7 +8,7 @@ namespace EntityFramework.Spike
         public DataBaseContext()
         {
             Database.Connection.ConnectionString =
-                @"Server=(localDB)\MogulServiceDB; DataBase=AuthService; Integrated Security=true";
+                @"Server=(localDB)\MogulServicesDB; DataBase=AuthService; Integrated Security=true";
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
