@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace EntityFramework.Spike.Entities
 {
+    [Table("Session")]
     public class Session : IEntity
     {
         [Key]
@@ -20,5 +24,7 @@ namespace EntityFramework.Spike.Entities
         public DateTime ModifiedDate { get; set; }
 
         public string ModifiedBy { get; set; }
+
+        public ICollection<SubSession> SubSessions { get; set; }
     }
 }

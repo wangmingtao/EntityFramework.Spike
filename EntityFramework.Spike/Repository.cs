@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Linq.Expressions;
 using EntityFramework.Spike.Entities;
@@ -18,11 +19,25 @@ namespace EntityFramework.Spike
             _dbSet = _context.Set<T>();
         }
 
-        public IList<T> Query(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        public IList<T> Query(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string inculudeProperties = "")
         {
             var query = _dbSet as IQueryable<T>;
 
-            query = query.AsNoTracking();
+            if (!string.IsNullOrEmpty(inculudeProperties))
+            {
+                var properties = inculudeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
+
+                query = properties.Aggregate(query, (current, propertyName) => current.Include(propertyName));
+            }
+
+            try
+            {
+                query = query.AsNoTracking();
+            }
+            catch (ModelValidationException ex)
+            {
+                throw ex;
+            }
 
             if (filter != null)
             {
@@ -37,7 +52,7 @@ namespace EntityFramework.Spike
             return query.ToList();
         }
 
-        public T GetById(object key)
+        public T GetById(params object[] key)
         {
             return _dbSet.Find(key);
         }
@@ -53,7 +68,13 @@ namespace EntityFramework.Spike
             Delete(entityToDelete);
         }
 
-        public T Update(object key, T updatedEntity)
+        public virtual void Delete(T entityToDelete)
+        {
+            Attach(entityToDelete);
+            _dbSet.Remove(entityToDelete);
+        }
+
+        public T Update(T updatedEntity, params object[] key)
         {
             T original = _dbSet.Find(key);
 
@@ -65,14 +86,14 @@ namespace EntityFramework.Spike
             return original;
         }
 
-        public virtual void Delete(T entityToDelete)
+        public void Attach(T entity)
         {
-            if (_context.Entry(entityToDelete).State == EntityState.Detached)
+            if (_context.Entry(entity).State == EntityState.Detached)
             {
-                _dbSet.Attach(entityToDelete);
+                _dbSet.Attach(entity);
             }
-            _dbSet.Remove(entityToDelete);
         }
+
 
     }
 }

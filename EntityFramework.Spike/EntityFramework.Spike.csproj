@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBaseContext.cs" />
+    <Compile Include="Entities\SubSession.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\Session.cs" />
     <Compile Include="Program.cs" />
