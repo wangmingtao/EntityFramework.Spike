@@ -52,6 +52,7 @@
     <Compile Include="Entities\SubSession.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\Session.cs" />
+    <Compile Include="PredicateConstructor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
