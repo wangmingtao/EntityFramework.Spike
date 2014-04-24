@@ -14,7 +14,7 @@ namespace EntityFramework.Spike
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Session>().ToTable("Session");
-            //TODO:Add necesary mapping here.
+            //TODO:Add necessary mapping here.
         }
     }
 }
