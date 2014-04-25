@@ -7,6 +7,7 @@ namespace EntityFramework.Spike
 {
     public class UnitOfWork : IDisposable
     {
+        private bool _saved;
         private bool _disposed;
 
         private readonly Hashtable _repositories = new Hashtable();
@@ -24,11 +25,17 @@ namespace EntityFramework.Spike
 
         public void Save()
         {
-            _context.SaveChanges();
+            if (!_saved)
+            {
+                _context.SaveChanges();
+                _saved = true;
+            }
         }
 
         public void Dispose()
         {
+            Save();
+
             ExecuteDispose();
             GC.SuppressFinalize(this);
         }

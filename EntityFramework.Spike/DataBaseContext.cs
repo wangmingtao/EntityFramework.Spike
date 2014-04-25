@@ -13,7 +13,7 @@ namespace EntityFramework.Spike
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Session>().HasMany(f=>f.SubSessions).WithRequired(f=>f.Session).HasForeignKey(f=>f.TokenId);
+            modelBuilder.Entity<Session>();
             //TODO:Add necessary mapping here.
         }
     }

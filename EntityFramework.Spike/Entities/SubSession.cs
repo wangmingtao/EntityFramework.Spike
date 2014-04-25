@@ -8,7 +8,7 @@ namespace EntityFramework.Spike.Entities
     {
         [Key]
         [Column(Order = 0)]
-        public string TokenId { get; set; }
+        public string Token { get; set; }
         [Key]
         [Column(Order = 1)]
         public string SubSessionName { get; set; }
