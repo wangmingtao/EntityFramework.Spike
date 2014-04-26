@@ -6,7 +6,7 @@ namespace EntityFramework.Spike
 {
     public class OrderByConstructor<T> where T : class, new()
     {
-        OrderByDescriptor _descriptor = null;
+        readonly OrderByDescriptor _descriptor = null;
         public OrderByConstructor(OrderByDescriptor descriptor)
         {
             _descriptor = descriptor;

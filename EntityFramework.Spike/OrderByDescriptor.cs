@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace EntityFramework.Spike
 {
@@ -16,7 +17,7 @@ namespace EntityFramework.Spike
 
             if (!string.IsNullOrEmpty(orderby))
             {
-                foreach (var item in orderby.Split(','))
+                foreach (var item in orderby.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries))
                 {
                     var temArr = item.Split(' ');
                     if (temArr.Length == 2)
