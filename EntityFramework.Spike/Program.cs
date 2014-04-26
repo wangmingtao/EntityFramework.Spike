@@ -12,11 +12,13 @@ namespace EntityFramework.Spike
             using (var uow = new UnitOfWork())
             {
                 Expression<Func<Session, bool>> express = f => true;
-                express = express.And(f => f.Token == "1A80E393-6C77-4AC2-B8A8-B085CA5D799E");
+                //express = express.And(f => f.Token == "FFF77F72-83C8-4F85-903C-83F294CC462A");
+
+                var orderby = new OrderByDescriptor("CreatedDate Ascending,Email DeAscending");
 
                 var result = uow.GetRepository<Session>().Query(
                     filter: express,
-                    orderBy: o => o.OrderBy(or => or.CreatedDate).ThenByDescending(or => or.Email),
+                    orderBy: new OrderByConstructor<Session>(orderby).GenerateOrderBy(),
                     inculudeProperties: "SubSessions");
 
 //                var t = uow.GetRepository<SubSession>()
