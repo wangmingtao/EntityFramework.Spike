@@ -21,6 +21,11 @@ namespace EntityFramework.Spike
                     orderBy: new OrderByConstructor<Session>(orderby).GenerateOrderBy(),
                     inculudeProperties: "SubSessions");
 
+                orderby = new OrderByDescriptor("Session.Email DeAscending");
+                var subResult =
+                    uow.GetRepository<SubSession>()
+                        .Query(orderBy: new OrderByConstructor<SubSession>(orderby).GenerateOrderBy());
+
 //                var t = uow.GetRepository<SubSession>()
 //                    .GetById("1A80E393-6C77-4AC2-B8A8-B085CA5D799E", "Name2");
 //
