@@ -4,23 +4,17 @@ using System.Linq.Expressions;
 
 namespace EntityFramework.Spike
 {
-    public class OrderByConstructor<T> where T : class, new()
+    public static class OrderByConstructor<T> where T : class, new()
     {
-        readonly OrderByDescriptor _descriptor = null;
-        public OrderByConstructor(OrderByDescriptor descriptor)
+        public static Func<IQueryable<T>, IOrderedQueryable<T>> GenerateOrderBy(OrderByDescriptor orderByDescriptor)
         {
-            _descriptor = descriptor;
-        }
-
-        public Func<IQueryable<T>, IOrderedQueryable<T>> GenerateOrderBy()
-        {
-            if (_descriptor == null)
+            if (orderByDescriptor == null)
                 return null;
 
             Func<IQueryable<T>, IOrderedQueryable<T>> odby = (f =>
             {
                 IOrderedQueryable<T> temOrderedQueryable = null;
-                foreach (OrderByItem item in _descriptor.OrderByList)
+                foreach (OrderByItem item in orderByDescriptor.OrderByList)
                 {
                     if (!string.IsNullOrEmpty(item.ColumnName))
                     {
