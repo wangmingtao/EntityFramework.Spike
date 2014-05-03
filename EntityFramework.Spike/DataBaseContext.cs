@@ -14,6 +14,7 @@ namespace EntityFramework.Spike
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Session>();
+            modelBuilder.Entity<SubSession>();
             //TODO:Add necessary mapping here.
         }
     }
